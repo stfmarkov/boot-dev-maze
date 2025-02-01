@@ -12,14 +12,24 @@ def main():
     cell4 = Cell(win)
 
     cell1.left_wall = False
-    cell2.right_wall = False
-    cell3.top_wall = False
-    cell4.bottom_wall = False
+    cell1.right_wall = False
+
+    cell2.left_wall = False
+    cell2.bottom_wall = False
+
+    cell3.right_wall = False
+
+    cell4.left_wall = False
+    cell4.top_wall = False
 
     cell1.draw(100, 200, 100, 200)
     cell2.draw(200, 300, 100, 200)
     cell3.draw(100, 200, 200, 300)
     cell4.draw(200, 300, 200, 300)
+
+    cell1.draw_move(cell2)
+    cell2.draw_move(cell4)
+    cell4.draw_move(cell3)
 
     win.run()
 

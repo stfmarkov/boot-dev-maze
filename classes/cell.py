@@ -14,6 +14,7 @@ class Cell():
         self._x2 = x2
         self._y1 = y1
         self._y2 = y2
+        self._center = Point((x1 + x2) // 2, (y1 + y2) // 2)
 
         if self.left_wall:
             self._win.drow_line(Line(Point(x1, y1), Point(x1, y2)))
@@ -23,4 +24,8 @@ class Cell():
             self._win.drow_line(Line(Point(x1, y1), Point(x2, y1)))
         if self.bottom_wall:
             self._win.drow_line(Line(Point(x1, y2), Point(x2, y2)))
+
+    def draw_move(self, to_cell, undo=False):
+        color = "grey" if not undo else "red"
+        self._win.drow_line(Line(self._center, to_cell._center), color)
                                 
