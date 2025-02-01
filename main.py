@@ -1,15 +1,25 @@
 from classes.window import Window
 from classes.point import Point
 from classes.line import Line
+from classes.cell import Cell
 
 def main():
     win = Window(800, 600)
 
-    line_1 = Line(Point(100, 100), Point(200, 200))
-    line_2 = Line(Point(150, 150), Point(250, 250))
+    cell1 = Cell(win)
+    cell2 = Cell(win)
+    cell3 = Cell(win)
+    cell4 = Cell(win)
 
-    win.drow_line(line_1, "red")
-    win.drow_line(line_2, "blue")
+    cell1.left_wall = False
+    cell2.right_wall = False
+    cell3.top_wall = False
+    cell4.bottom_wall = False
+
+    cell1.draw(100, 200, 100, 200)
+    cell2.draw(200, 300, 100, 200)
+    cell3.draw(100, 200, 200, 300)
+    cell4.draw(200, 300, 200, 300)
 
     win.run()
 
