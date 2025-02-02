@@ -31,7 +31,13 @@ class Maze():
                 cell = Cell(self.win)
                 self._cells[col].append(cell)
 
+        self._break_entrance_and_exit()
         self._draw_cells()
+
+    def _break_entrance_and_exit(self):
+        self._cells[0][0].top_wall = False
+        self._cells[self.num_cols - 1][self.num_rows - 1].bottom_wall = False
+
 
     def _draw_cells(self):
         for col in range(self.num_cols):
