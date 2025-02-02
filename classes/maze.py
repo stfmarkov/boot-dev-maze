@@ -18,7 +18,7 @@ class Maze():
         self.cell_size_y = 0
 
         self.win = win
-        self.cells = []
+        self._cells = []
 
         self.canvas.after(100, self._create_cells)
 
@@ -26,10 +26,10 @@ class Maze():
         self.cell_size_x = (self.canvas.winfo_width() - 2*self.BUFFER) // self.num_cols
         self.cell_size_y = (self.canvas.winfo_height() - 2*self.BUFFER)// self.num_rows
         for col in range(self.num_cols):
-            self.cells.append([])
+            self._cells.append([])
             for row in range(self.num_rows):
                 cell = Cell(self.win)
-                self.cells[col].append(cell)
+                self._cells[col].append(cell)
 
         self._draw_cells()
 
@@ -40,7 +40,7 @@ class Maze():
                 x2 = x1 + self.cell_size_x 
                 y1 = row * self.cell_size_y + self.BUFFER
                 y2 = y1 + self.cell_size_y
-                self.cells[col][row].draw(x1, x2, y1, y2)
+                self._cells[col][row].draw(x1, x2, y1, y2)
 
     def _animate(self):
         self.win.redraw()
