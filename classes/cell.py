@@ -8,6 +8,7 @@ class Cell():
         self.right_wall = True
         self.top_wall = True
         self.bottom_wall = True
+        self.visited = False
 
     def draw(self, x1, x2, y1, y2):
         self._x1 = x1
