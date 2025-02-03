@@ -59,51 +59,56 @@ class Maze():
         self.win.redraw()
         time.sleep(0.05)
 
-    def _break_walls_r(self, i, j):
-        self._cells[i][j].visited = True
+    def _break_walls_r(self, row, col):
+        self._cells[col][row].visited = True
 
         while True:
             possible_directions = []
 
+            def add_direction(row, col, direction):
+                if not self._cells[col][row].visited:
+                    possible_directions.append({'row':row, 'col':col, 'direction':direction})
 
-            def add_direction(cell, i, j, direction):
-                if not cell.visited:
-                    possible_directions.append({'cell':cell, 'i':i, 'j':j, 'direction':direction})
+            is_left_most = col == 0
+            is_right_most = col == self.num_cols - 1
+            is_top_most = row == 0
+            is_bottom_most = row == self.num_rows - 1
 
-            if(j - 1 >= 0):
-                add_direction(self._cells[i][j - 1], i, j - 1, 'left')
-            if(i + 1 < self.num_cols):
-                add_direction(self._cells[i + 1][j], i + 1, j, 'bottom')
-            if(j + 1 < self.num_rows):
-                print(j, self.num_rows, 'right')
-                add_direction(self._cells[i][j + 1], i, j + 1, 'right')
-            if(i - 1 >= 0):
-                add_direction(self._cells[i - 1][j], i - 1, j, 'top')
+            if not is_left_most:
+                add_direction(row, col - 1, 'left')    
+
+            if not is_right_most:
+                add_direction(row, col + 1, 'right')
+
+            if not is_top_most:
+                add_direction(row - 1, col, 'top')
+
+            if not is_bottom_most:
+                add_direction(row + 1, col, 'bottom')
 
             if len(possible_directions) == 0:
                 return
             
             next = random.randrange(0, len(possible_directions))
 
-            nextCell = possible_directions[next]['cell']
-            nextCoordinates = possible_directions[next]['i'], possible_directions[next]['j']
+            nextRow = possible_directions[next]['row']
+            nextCol = possible_directions[next]['col']
             direction = possible_directions[next]['direction']
 
-
             if(direction == 'top'):
-                self._cells[i][j].top_wall = False
-            #     nextCell.bottom_wall = False
+                self._cells[col][row].top_wall = False
+                self._cells[nextCol][nextRow].bottom_wall = False
 
             if(direction == 'right'):
-                self._cells[i][j].right_wall = False
-                # nextCell.left_wall = False
+                self._cells[col][row].right_wall = False
+                self._cells[nextCol][nextRow].left_wall = False
 
             if(direction == 'bottom'):
-                self._cells[i][j].bottom_wall = False
-            #     nextCell.top_wall = False
+                self._cells[col][row].bottom_wall = False
+                self._cells[nextCol][nextRow].top_wall = False
 
             if(direction == 'left'):
-                self._cells[i][j].left_wall = False
-            #     nextCell.right_wall = False
+                self._cells[col][row].left_wall = False
+                self._cells[nextCol][nextRow].right_wall = False
 
-            self._break_walls_r(nextCoordinates[0], nextCoordinates[1])
+            self._break_walls_r(nextRow, nextCol)
