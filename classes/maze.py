@@ -1,5 +1,4 @@
 from classes.cell import Cell
-import time
 import random
 
 class Maze():
@@ -55,10 +54,6 @@ class Maze():
                 y1 = row * self.cell_size_y + self.BUFFER
                 y2 = y1 + self.cell_size_y
                 self._cells[col][row].draw(x1, x2, y1, y2)
-
-    def _animate(self):
-        self.win.redraw()
-        time.sleep(0.05)
 
     def _break_walls_r(self, row, col):
         self._cells[col][row].visited = True
@@ -120,58 +115,64 @@ class Maze():
                 self._cells[col][row].visited = False
 
     def solve(self, row, col):
-        visited = []
-        to_visit = []
 
-        to_visit.append({'row':row, 'col':col})
+        # TODO: Move this to a cell function
+        # Solve the cells one by one recursevly
 
-        prev = None
+        return self._cells[col][row]._solve_r(row, col, self)
 
-        while len(to_visit) > 0:
-            current = to_visit.pop(0)
-            row = current['row']
-            col = current['col']
+        # visited = []
+        # to_visit = []
 
-            if(prev != None):
-                self._cells[prev['col']][prev['row']].draw_move(self._cells[col][row])
+        # to_visit.append({'row':row, 'col':col})
 
-            if self._cells[col][row].visited:
-                continue
+        # prev = None
 
-            self._cells[col][row].visited = True
-            visited.append({'row':row, 'col':col})
+        # while len(to_visit) > 0:
+        #     current = to_visit.pop(0)
+        #     row = current['row']
+        #     col = current['col']
 
-            adjacent = []
+        #     if(prev != None):
+        #         self._cells[prev['col']][prev['row']].draw_move(self._cells[col][row])
 
-            is_left_most = col == 0
-            is_right_most = col == self.num_cols - 1
-            is_top_most = row == 0
-            is_bottom_most = row == self.num_rows - 1        
+        #     if self._cells[col][row].visited:
+        #         continue
 
-            has_left_wall = self._cells[col][row].left_wall
-            has_right_wall = self._cells[col][row].right_wall
-            has_top_wall = self._cells[col][row].top_wall
-            has_bottom_wall = self._cells[col][row].bottom_wall
+        #     self._cells[col][row].visited = True
+        #     visited.append({'row':row, 'col':col})
 
-            if not is_left_most and not has_left_wall:
-                adjacent.append({'row':row, 'col':col - 1})
+        #     adjacent = []
+
+        #     is_left_most = col == 0
+        #     is_right_most = col == self.num_cols - 1
+        #     is_top_most = row == 0
+        #     is_bottom_most = row == self.num_rows - 1        
+
+        #     has_left_wall = self._cells[col][row].left_wall
+        #     has_right_wall = self._cells[col][row].right_wall
+        #     has_top_wall = self._cells[col][row].top_wall
+        #     has_bottom_wall = self._cells[col][row].bottom_wall
+
+        #     if not is_left_most and not has_left_wall:
+        #         adjacent.append({'row':row, 'col':col - 1})
             
-            if not is_right_most and not has_right_wall:
-                adjacent.append({'row':row, 'col':col + 1})
+        #     if not is_right_most and not has_right_wall:
+        #         adjacent.append({'row':row, 'col':col + 1})
             
-            if not is_top_most and not has_top_wall:
-                adjacent.append({'row':row - 1, 'col':col})
+        #     if not is_top_most and not has_top_wall:
+        #         adjacent.append({'row':row - 1, 'col':col})
 
-            if not is_bottom_most and not has_bottom_wall:
-                adjacent.append({'row':row + 1, 'col':col})
+        #     if not is_bottom_most and not has_bottom_wall:
+        #         adjacent.append({'row':row + 1, 'col':col})
 
-            for a in adjacent:
-                if not self._cells[a['col']][a['row']].visited:
-                    to_visit.append(a)
+        #     for a in adjacent:
+        #         if not self._cells[a['col']][a['row']].visited:
+        #             to_visit.append(a)
 
-            prev = current
+        #     prev = current
 
-            print(f'Visiting {row}, {col}, to visit {to_visit}')
+        #     print(f'Visiting {row}, {col}, to visit {to_visit}')
 
 
 

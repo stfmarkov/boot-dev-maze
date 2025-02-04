@@ -1,4 +1,5 @@
 from tkinter import Tk, BOTH, Canvas
+import time
 
 class Window():
     def __init__(self, width, height):
@@ -25,6 +26,10 @@ class Window():
 
     def drow_line(self, line, color="black"):
         line.draw(self.canvas, color)
+
+    def _animate(self):
+        self.redraw()
+        time.sleep(0.05)
 
     def run(self):
         self.running = True

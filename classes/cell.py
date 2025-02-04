@@ -30,3 +30,44 @@ class Cell():
         color = "grey" if not undo else "red"
         self._win.drow_line(Line(self._center, to_cell._center), color)
                                 
+    def _solve_r(self, row, col, maze):
+        # self._win._animate()
+        self.visited = True
+        is_end_cell = row == maze.num_rows - 1 and col == maze.num_cols - 1
+
+        if is_end_cell:
+            return True
+        
+        possible_directions = []
+
+        def add_direction(row, col, direction):
+            has_wall = (direction == 'left' and self.left_wall) or (direction == 'right' and self.right_wall) or (direction == 'top' and self.top_wall) or (direction == 'bottom' and self.bottom_wall)
+            if not maze._cells[col][row].visited and not has_wall:
+                possible_directions.append({'row':row, 'col':col, 'direction':direction})
+
+        is_left_most = col == 0
+        is_right_most = col == maze.num_cols - 1
+        is_top_most = row == 0
+        is_bottom_most = row == maze.num_rows - 1
+
+        if not is_left_most:
+            add_direction(row, col - 1, 'left')    
+
+        if not is_right_most:
+            add_direction(row, col + 1, 'right')
+
+        if not is_top_most:
+            add_direction(row - 1, col, 'top')
+
+        if not is_bottom_most:
+            add_direction(row + 1, col, 'bottom')
+
+        for direction in possible_directions:
+            cell = maze._cells[direction['col']][direction['row']]
+            if cell._solve_r(direction['row'], direction['col'], maze):
+                self.draw_move(cell)
+                return True
+            cell.draw_move(self, undo=True)
+            
+
+        return False
