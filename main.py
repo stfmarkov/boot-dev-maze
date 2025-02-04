@@ -34,6 +34,8 @@ def main():
 
     maze = Maze(10, 10, win)
 
+    maze.win.canvas.after(1000, maze.solve, 0, 0)
+
     win.run()
 
     win.wait_for_close()
